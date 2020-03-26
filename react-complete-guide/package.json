@@ -32,5 +32,8 @@
     ]
   },
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "cypress": "^4.2.0"
+  }
 }

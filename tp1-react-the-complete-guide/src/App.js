@@ -1,11 +1,16 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import './Components/User/UserInput'
+import './Components/User/UserOutput'
+import UserInput from './Components/User/UserInput';
+import UserOutput from './Components/User/UserOutput';
 
 function App() {
   return (
     <div className="App">
-      <p>teste</p>
+      <UserInput></UserInput>
+      <UserOutput>Este é o primeiro parágrafo</UserOutput>
+      <UserOutput>Este é o segundo parágrafo</UserOutput>
     </div>
   );
 }
