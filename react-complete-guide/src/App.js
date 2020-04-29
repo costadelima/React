@@ -56,8 +56,28 @@ class App extends Component{
     }
   };
 
+  nameChangeeHandler = (event) => {
+    this.setState({
+      persons: [
+        { name: 'Luiz', age: 28},
+        { name: event.target.value, age: 29},
+        { name: 'Stephanie', age: 26}
+      ],
+      counter: 0
+    });
+  };
+
 
   render(){
+    //pode-se adicionar in line styles em componentes
+    const style = {
+      backgroundColor: 'white',
+      font: 'inherit',
+      border: '1x solid blue',
+      padding: '8px',
+      cursor: 'pointer'
+    };   
+
     return (
       <div className="App">
         <h1>Hi, I'm a react app</h1>
@@ -65,7 +85,9 @@ class App extends Component{
         {/* onClick é chamado para executar uma função feita. Essa função pode alterar algo no backend,
         pode alterar um componente na tela ou pode alterar um elemento de estado (que por ventura irá
         alterar um componente) */}
-        <button onClick={() => this.switchNameHandler('Luiz Flavio Costa de Lima')}>Switch Name</button>
+        <button 
+          style={style} 
+          onClick={() => this.switchNameHandler('Luiz Flavio Costa de Lima')}>Switch Name</button>
         {/* se possível use sempre bind em vez de uma função  */}
         <Person 
           name={this.state.persons[0].name} 
@@ -73,7 +95,8 @@ class App extends Component{
           click={this.switchNameHandler.bind(this,'Luiz Flavio Costa de Lima')}/>
         <Person 
           name={this.state.persons[1].name} 
-          age={this.state.persons[1].age}>My Hobbies: Racing</Person>
+          age={this.state.persons[1].age}
+          change={this.nameChangeeHandler}>My Hobbies: Racing</Person>
         <Person 
           name={this.state.persons[2].name} 
           age={this.state.persons[2].age}/>
