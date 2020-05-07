@@ -5,7 +5,8 @@ import { Component } from 'react';
  * Hooks são funções que o React disponibiliza para serem usadas no projeto.
  * 1 - useState: hook que permite utilizar state em functional components
  */
-import React, { useState } from 'react';
+import React from 'react';
+// import React, { useState } from 'react';
 import './App.css';
 import Person from './Person/Person';
 
@@ -35,7 +36,7 @@ class App extends Component{
   switchNameHandler = (newName) => {
     //console.log("foi clicado");
     //NAAAOO FAZER ISSSO: this.state.persons[0].name = 'Flavio';
-    if(this.state.counter == 0){
+    if(this.state.counter === 0){
       this.setState({
         persons: [
           { name: newName, age: 28},
@@ -57,6 +58,7 @@ class App extends Component{
   };
 
   nameChangeeHandler = (event) => {
+    // console.log(`value: ${event.target.value}`);
     this.setState({
       persons: [
         { name: 'Luiz', age: 28},
@@ -75,7 +77,7 @@ class App extends Component{
       font: 'inherit',
       border: '1x solid blue',
       padding: '8px',
-      cursor: 'pointer'
+      cursor: 'pointer',
     };   
 
     return (
