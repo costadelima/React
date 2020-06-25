@@ -10,7 +10,7 @@ import React from 'react';
 import './App.css';
 import Person from './Person/Person';
 
-class App extends Component{ 
+class App extends Component {
   /**
    *  1 - state só pode ser usado em componentes que extends Component.
    *  2 - state é usado para alterar dinamincamente o componente.
@@ -18,11 +18,12 @@ class App extends Component{
    */
   state = {
     persons: [
-      { name: 'Luiz', age: 28},
-      { name: 'Manu', age: 29},
-      { name: 'Stephanie', age: 26}
+      { name: 'Luiz', age: 28 },
+      { name: 'Manu', age: 29 },
+      { name: 'Stephanie', age: 26 }
     ],
-    counter: 0
+    counter: 0,
+    showPersons: false
   }
 
   /**
@@ -36,21 +37,21 @@ class App extends Component{
   switchNameHandler = (newName) => {
     //console.log("foi clicado");
     //NAAAOO FAZER ISSSO: this.state.persons[0].name = 'Flavio';
-    if(this.state.counter === 0){
+    if (this.state.counter === 0) {
       this.setState({
         persons: [
-          { name: newName, age: 28},
-          { name: 'Manu', age: 29},
-          { name: 'Stephanie', age: 27}
+          { name: newName, age: 28 },
+          { name: 'Manu', age: 29 },
+          { name: 'Stephanie', age: 27 }
         ],
-        counter : 1
-      });      
-    }else{
+        counter: 1
+      });
+    } else {
       this.setState({
         persons: [
-          { name: 'Luiz', age: 28},
-          { name: 'Manu', age: 29},
-          { name: 'Stephanie', age: 26}
+          { name: 'Luiz', age: 28 },
+          { name: 'Manu', age: 29 },
+          { name: 'Stephanie', age: 26 }
         ],
         counter: 0
       });
@@ -61,16 +62,25 @@ class App extends Component{
     // console.log(`value: ${event.target.value}`);
     this.setState({
       persons: [
-        { name: 'Luiz', age: 28},
-        { name: event.target.value, age: 29},
-        { name: 'Stephanie', age: 26}
+        { name: 'Luiz', age: 28 },
+        { name: event.target.value, age: 29 },
+        { name: 'Stephanie', age: 26 }
       ],
       counter: 0
     });
   };
 
+  togglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({ showPersons: !doesShow });
+    // if (this.state.showPersons)
+    //   this.setState({ showPersons: false });
+    // else
+    //   this.setState({ showPersons: true });
 
-  render(){
+  };
+
+  render() {
     //pode-se adicionar in line styles em componentes
     const style = {
       backgroundColor: 'white',
@@ -78,7 +88,7 @@ class App extends Component{
       border: '1x solid blue',
       padding: '8px',
       cursor: 'pointer',
-    };   
+    };
 
     return (
       <div className="App">
@@ -87,22 +97,27 @@ class App extends Component{
         {/* onClick é chamado para executar uma função feita. Essa função pode alterar algo no backend,
         pode alterar um componente na tela ou pode alterar um elemento de estado (que por ventura irá
         alterar um componente) */}
-        <button 
-          style={style} 
-          onClick={() => this.switchNameHandler('Luiz Flavio Costa de Lima')}
-        >Switch Name</button>
-        {/* se possível use sempre bind em vez de uma função  */}
-        <Person 
-          name={this.state.persons[0].name} 
-          age={this.state.persons[0].age}
-          click={this.switchNameHandler.bind(this,'Luiz Flavio Costa de Lima')}/>
-        <Person 
-          name={this.state.persons[1].name} 
-          age={this.state.persons[1].age}
-          change={this.nameChangeeHandler}>My Hobbies: Racing</Person> {/* my hobbies so aparece pq props.children e' usado dentro do componente*/}
-        <Person 
-          name={this.state.persons[2].name} 
-          age={this.state.persons[2].age}/>
+        <button
+          style={style}
+          // onClick={() => this.switchNameHandler('Luiz Flavio Costa de Lima')}
+          onClick={this.togglePersonsHandler}
+        >Toggle Persons</button>{/* se possível use sempre bind em vez de uma função  */}
+        { //tudo dentro da chave e' js
+          this.state.showPersons ? //o JSX que e' chamado equivale ao js React.createElemente()
+            <div>
+              <Person
+                name={this.state.persons[0].name}
+                age={this.state.persons[0].age}
+                click={this.switchNameHandler.bind(this, 'Luiz Flavio Costa de Lima')} />
+              <Person
+                name={this.state.persons[1].name}
+                age={this.state.persons[1].age}
+                change={this.nameChangeeHandler}>My Hobbies: Racing</Person> {/* my hobbies so aparece pq props.children e' usado dentro do componente*/}
+              <Person
+                name={this.state.persons[2].name}
+                age={this.state.persons[2].age} />
+            </div> : null
+        }
       </div>
     );
   }
