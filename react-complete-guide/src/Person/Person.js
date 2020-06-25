@@ -1,6 +1,10 @@
 import React from 'react'; 
 import './Person.css';
 
+
+/**
+ * Ao usar class-vased components, utilizar 'this.props'
+ */
 const person = (props) => {
     console.log(props.change);
     return (
