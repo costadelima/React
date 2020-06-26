@@ -9,6 +9,7 @@ import React from 'react';
 // import React, { useState } from 'react';
 import './App.css';
 import Person from './Person/Person';
+import person from './Person/Person';
 
 class App extends Component {
   /**
@@ -18,66 +19,45 @@ class App extends Component {
    */
   state = {
     persons: [
-      { name: 'Luiz', age: 28 },
-      { name: 'Manu', age: 29 },
-      { name: 'Stephanie', age: 26 }
+      { id: 'p1', name: 'Luiz', age: 28 },
+      { id: 'p2', name: 'Manu', age: 29 },
+      { id: 'p3', name: 'Stephanie', age: 26 }
     ],
-    counter: 0,
     showPersons: false
   }
 
-  /**
-   *  1 - a primeira parte do nome da função é opcional, mas tipicamente
-   * no final do nome usa-se "Handler" para indicar que não é um método
-   * que não está ativamente sendo chamado, mas que está sendo lidado (handler)
-   * com outra função, método ou variável.
-   * 2 - função que altera o state (objeto usado para setar/guardar alguma informacao do componente).
-   * 3 - funções que alteram o estado do componente também podem ser passadas como parâmetros dos componentes
-   */
-  switchNameHandler = (newName) => {
-    //console.log("foi clicado");
-    //NAAAOO FAZER ISSSO: this.state.persons[0].name = 'Flavio';
-    if (this.state.counter === 0) {
-      this.setState({
-        persons: [
-          { name: newName, age: 28 },
-          { name: 'Manu', age: 29 },
-          { name: 'Stephanie', age: 27 }
-        ],
-        counter: 1
-      });
-    } else {
-      this.setState({
-        persons: [
-          { name: 'Luiz', age: 28 },
-          { name: 'Manu', age: 29 },
-          { name: 'Stephanie', age: 26 }
-        ],
-        counter: 0
-      });
-    }
+  nameChangedHandler = (event, id) => {
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
+      // === usado pois p.id e id sao do mesmo tipo e nao precisam  ser convertidos ( o que faz o == ) para tipos primitivos antes de fazer a comparacao
+    });
+
+    //NAO FAZER ISSO
+    // const person = this.state.persons[personIndex] AQUI 'E PASSADO SOMENTE O PONTEIRO
+    const person = {
+      ...this.state.persons[personIndex]
+    };
+
+    person.name = event.target.value;
+
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState({
+      persons: persons
+    });
   };
 
-  nameChangeeHandler = (event) => {
-    // console.log(`value: ${event.target.value}`);
-    this.setState({
-      persons: [
-        { name: 'Luiz', age: 28 },
-        { name: event.target.value, age: 29 },
-        { name: 'Stephanie', age: 26 }
-      ],
-      counter: 0
-    });
+  deletePersonHandler = (personIndex) => {
+    // const persons = this.state.persons.slice();// boa pratica colocar o slice para copiar o array e nao passar somente o ponteiro
+    const persons = [...this.state.persons]; //jeito JavaScript ES6
+    persons.splice(personIndex, 1);
+    this.setState({ persons: persons })
   };
 
   togglePersonsHandler = () => {
     const doesShow = this.state.showPersons;
     this.setState({ showPersons: !doesShow });
-    // if (this.state.showPersons)
-    //   this.setState({ showPersons: false });
-    // else
-    //   this.setState({ showPersons: true });
-
   };
 
   render() {
@@ -96,17 +76,19 @@ class App extends Component {
       // manter o co'digo principal o mais limpo possi'vel
       persons = (
         <div>
-          <Person
-            name={this.state.persons[0].name}
-            age={this.state.persons[0].age}
-            click={this.switchNameHandler.bind(this, 'Luiz Flavio Costa de Lima')} />
-          <Person
-            name={this.state.persons[1].name}
-            age={this.state.persons[1].age}
-            change={this.nameChangeeHandler}>My Hobbies: Racing</Person> {/* my hobbies so aparece pq props.children e' usado dentro do componente*/}
-          <Person
-            name={this.state.persons[2].name}
-            age={this.state.persons[2].age} />
+          {/* a funcao dentro de map e' executada para cada elemento do array associado ao map */}
+          {
+            //o mep e' um loop que percorre um array, assim cada vez q o 
+            //componente ira' renderizar, deve-se ter uma key u'nica. Assim, somente o componente sera' renderizado.
+            this.state.persons.map((person, index) => {
+              return <Person
+                click={() => this.deletePersonHandler(index)}
+                name={person.name}
+                age={person.age}
+                key={person.id}
+                changed={(event) => this.nameChangedHandler(event, person.id)} />
+            })
+          }
         </div>
       );
     }
