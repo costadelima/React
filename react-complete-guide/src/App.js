@@ -93,10 +93,16 @@ class App extends Component {
       );
     }
 
-    return (
-      <div className="App">
+    let intro = (
+      <div>
         <h1>Hi, I'm a react app</h1>
         <p>This is really working!</p>
+      </div>
+    );
+
+    return (
+      <div className="App">
+        {intro}
         {/* onClick é chamado para executar uma função feita. Essa função pode alterar algo no backend,
         pode alterar um componente na tela ou pode alterar um elemento de estado (que por ventura irá
         alterar um componente) */}
